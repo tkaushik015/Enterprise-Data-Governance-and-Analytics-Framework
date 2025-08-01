@@ -19,7 +19,7 @@
 7. [📂 Folder Structure](#folder-structure)  
 8. [🧠 Key Learnings & Challenges](#key-learnings--challenges)  
 9. [🔮 Future Improvements](#future-improvements)  
-10. [📖 References](#references)  
+
 
 ---
 
@@ -47,7 +47,6 @@ An **end-to-end** Azure Data Engineering pipeline built in a production-ready, j
                                              │
                                              ▼
                                     Power BI / Analytics
-
 💾 Data Sources
 Sales Data (CSV)
 
@@ -60,7 +59,7 @@ Defines initial vs. incremental loads, file patterns & table mappings
 
 ⚙️ Key Features & Concepts
 Medallion Architecture
-Bronze → Silver → Gold logical layers to separate raw ingestion from curated models 
+Bronze → Silver → Gold logical layers to separate raw ingestion from curated models
 
 Incremental CDC Processing
 
@@ -85,7 +84,7 @@ Split raw data into FactSales and dimension tables (DimBranch, DimDealer, DimMod
 Upsert logic in Silver to overwrite changed dimension attributes
 
 Unity Catalog Governance
-Unified metastore for catalogs, schemas and fine-grained access control 
+Unified metastore for catalogs, schemas and fine-grained access control
 
 Secure Secret Management
 
@@ -206,12 +205,3 @@ Integrate Event Hubs + Stream Analytics for real-time ingest.
 Automate CI/CD for ADF & notebooks via GitHub Actions.
 
 Incorporate data quality checks with Great Expectations or Deequ.
-
-📖 References
-Azure Data Factory Docs
-
-Delta Lake Guide
-
-Azure Databricks Docs
-
-Unity Catalog Overview
