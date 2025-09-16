@@ -81,18 +81,3 @@ flowchart LR
     D --> E[Gold Layer - Facts & Dimensions: Star Schema, Optimized Tables]
     E --> F[Unity Catalog: Governance & Schema Enforcement]
     F --> G[Power BI Dashboards: Reports & KPIs]
-
-
----
-
-### ✅ Key Fixes:
-- Removed **emojis** inside the boxes. (Mermaid doesn’t support them yet).  
-- Removed `<br/>` tags. Instead, use `:` for descriptions.  
-- Plain text inside `[ ]` is safest for rendering.  
-
----
-
-📌 If you still want **emojis or fancy styling**, we can keep the Mermaid diagram **clean/simple**, and below it add a **separate text flow with emojis**, like:  
-
-
-
