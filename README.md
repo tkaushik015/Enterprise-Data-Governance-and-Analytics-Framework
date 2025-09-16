@@ -75,7 +75,11 @@ The pipeline follows a **layered Medallion Architecture**:
 
 📂 SQL DB
 ⬇️ Extracted via ADF → Bronze Layer (raw data, stored in Parquet)
+
 ⬇️ Cleaned & transformed in Databricks → Silver Layer (joins, deduplication, business rules)
+
 ⬇️ Modeled into Gold Layer (✅ Facts & Dimensions with Star Schema)
+
 ⬇️ Governed with Unity Catalog (🔐 schema enforcement, lineage, data governance)
+
 ⬇️ Visualized in Power BI Dashboards (📊 KPIs, trends, business insights)
