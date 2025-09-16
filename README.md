@@ -71,7 +71,9 @@ The pipeline follows a **layered Medallion Architecture**:
 
 ---
 
-## 🛠 Data Pipeline Flow (Mermaid Diagram)
+## 🛠 Data Pipeline Flow  
+
+### 📊 Mermaid Diagram (Clean + Recruiter-Friendly)  
 
 ```mermaid
 flowchart LR
