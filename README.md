@@ -71,4 +71,31 @@ The pipeline follows a **layered Medallion Architecture**:
 
 ---
 
-## 📂 Repository Structure  
+## 🛠 Data Pipeline Flow (Mermaid Diagram)
+
+```mermaid
+flowchart LR
+    A[📥 Azure SQL Database] --> B[⚡ Azure Data Factory (Bronze)]
+    B --> C[🗄️ Azure Data Lake - Bronze Layer]
+    C --> D[🧹 Azure Databricks - Silver Layer<br/>Cleaning, Joins, Transformations]
+    D --> E[⭐ Gold Layer - Facts & Dimensions<br/>Star Schema, Optimized Tables]
+    E --> F[🔐 Unity Catalog<br/>Governance, Schema Enforcement]
+    F --> G[📊 Power BI Dashboards<br/>Reports & KPIs]
+
+
+---
+
+### ✅ 2. Commit & Push  
+- Just **paste the above snippet into your README.md** file.  
+- Commit → Push to GitHub.  
+
+---
+
+### ✅ 3. Result  
+On GitHub, it will render a **dynamic diagram**:  
+
+📥 SQL DB → ⚡ ADF → 🗄️ Bronze → 🧹 Databricks (Silver) → ⭐ Gold → 🔐 Unity Catalog → 📊 Power BI  
+
+---
+
+
