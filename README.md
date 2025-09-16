@@ -1,4 +1,4 @@
-# 🚀 Azure End-to-End Data Engineering Pipeline (Job-Ready)
+# 🚀 Azure End-to-End Data Engineering Pipeline 
 
 🔗 **GitHub Repository:** https://github.com/yourusername/azure-data-engineering-bootcamp
 
