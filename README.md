@@ -1,85 +1,175 @@
-# 🚀 Azure End-to-End Data Engineering Pipeline  
+🚀 Azure End-to-End Data Engineering Pipeline
 
-![Azure](https://img.shields.io/badge/Azure-Data%20Engineering-blue)  
-![Databricks](https://img.shields.io/badge/Databricks-Lakehouse-orange)  
-![ETL](https://img.shields.io/badge/ETL-Pipeline-green)  
-![PowerBI](https://img.shields.io/badge/PowerBI-Dashboard-yellow)  
+🔗 GitHub Repository
 
----
+📚 Project Overview
 
-## 📌 Project Overview  
-This project demonstrates the design and implementation of a **real-world Azure Data Engineering pipeline**.  
-It integrates **Azure SQL Database, Azure Data Factory (ADF), Azure Data Lake, Databricks, Delta Lake, Unity Catalog, and Power BI** under the **Medallion Architecture** (Bronze ➝ Silver ➝ Gold).  
+An end-to-end data engineering pipeline built using the Azure ecosystem, designed to handle incremental data ingestion, transformation, governance, and analytics.
+The project follows the Medallion Architecture (Bronze → Silver → Gold) and covers real-world scenarios such as CDC-based ingestion, SCD handling, dimensional modeling, schema evolution, and BI dashboards.
 
----
+💾 Project Architecture
 
-## ✨ Key Highlights  
-- ⚡ **Incremental data ingestion** using **Change Data Capture (CDC)**  
-- 🗂️ **Star schema modeling** (Facts & Dimensions)  
-- 🔄 **Slowly Changing Dimensions (SCD Type 1)** handling  
-- 🔑 **Parameterized pipelines** for scalable deployment  
-- 🔐 **Data governance, lineage, and schema enforcement** with Unity Catalog  
-- 📊 **Power BI dashboards** for visualization  
+📊 Architecture Flow:
 
----
+          +----------------+
+          |  Azure SQL DB  |
+          | (Source Data)  |
+          +-------+--------+
+                  |
+                  v
+        +---------+---------+
+        | Azure Data Factory|
+        | (ETL Pipelines)   |
+        +---------+---------+
+                  |
+                  v
+        +---------+---------+
+        | Azure Data Lake   |
+        | (Bronze Storage)  |
+        +---------+---------+
+                  |
+                  v
+        +---------+---------+
+        | Azure Databricks  |
+        | (PySpark, Delta)  |
+        +---------+---------+
+                  |
+      +-----------+-----------+
+      |   Silver & Gold Layers|
+      |  (Star Schema, SCD1)  |
+      +-----------+-----------+
+                  |
+                  v
+        +---------+---------+
+        |  Unity Catalog    |
+        | (Governance, RBAC)|
+        +---------+---------+
+                  |
+                  v
+        +---------+---------+
+        |  Power BI Reports |
+        +-------------------+
 
-## 🏗️ Architecture  
+📊 Data Flow
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/tkaushik015/Enterprise-Data-Governance-and-Analytics-Framework/main/architecture.png" width="800"/>
-</p>  
+Source Data → Loaded from Azure SQL Database (sample sales dataset).
 
-The pipeline follows a **layered Medallion Architecture**:  
+Bronze Layer → Raw ingested data stored in Parquet format in Azure Data Lake.
 
-1. **Data Source** → Azure SQL Database  
-   - Source tables hosted in Azure SQL DB  
-   - Both **initial** and **incremental loads** staged  
+Silver Layer → Cleaned & transformed in Databricks using PySpark (joins, deduplication, validations).
 
-2. **Ingestion Layer (Bronze)** → Azure Data Factory  
-   - Data extracted into **Azure Data Lake (Bronze)**  
-   - Stored in **Parquet format** for efficiency  
-   - Incremental ingestion: only new/updated records  
+Gold Layer → Data modeled into Facts & Dimensions (Star Schema), optimized for analytics.
 
-3. **Transformation Layer (Silver)** → Azure Databricks  
-   - Data cleaning, joins, and transformations with **PySpark**  
-   - Creation of **dimension & fact tables**  
-   - Implementation of **SCD Type 1**  
+Governance → Unity Catalog ensures lineage tracking, schema enforcement, and access control.
 
-4. **Serving Layer (Gold)** → Delta Lake  
-   - Modeled **star schema** for analytics  
-   - Optimized storage for reporting  
+Visualization → Final Gold layer connected to Power BI dashboards for reporting & KPIs.
 
-5. **Governance & Security** → Unity Catalog  
-   - Lineage tracking, schema enforcement, access control  
+⚡ Key Features & Concepts Implemented
+✅ Data Ingestion & Integration
 
-6. **Visualization** → Power BI  
-   - Dashboards for KPIs, business insights, and reporting  
+Incremental ingestion using Change Data Capture (CDC) & stored procedures.
 
----
+Raw data stored in Parquet for efficiency.
 
-## 🔄 Data Flow  
+Parameterized ADF pipelines for reusability & scalability.
 
-📥 **Data Source**: Azure SQL DB  
-⬇️  
-📦 **Bronze**: Raw ingested data via ADF (Parquet)  
-⬇️  
-🧹 **Silver**: Cleaned, enriched data in Databricks (SCD, transformations)  
-⬇️  
-⭐ **Gold**: Business-ready data (Facts & Dimensions)  
-⬇️  
-📊 **Power BI**: Interactive dashboards  
+🏗 Data Transformation & Modeling
 
----
+Applied Medallion Architecture (Bronze → Silver → Gold).
 
-## 🛠 Data Pipeline Flow  
+Designed Star Schema with Fact & Dimension tables.
 
-📂 SQL DB
-⬇️ Extracted via ADF → Bronze Layer (raw data, stored in Parquet)
+Implemented Slowly Changing Dimensions (SCD Type 1) for upserts.
 
-⬇️ Cleaned & transformed in Databricks → Silver Layer (joins, deduplication, business rules)
+🛡 Data Governance & Optimization
 
-⬇️ Modeled into Gold Layer (✅ Facts & Dimensions with Star Schema)
+Used Delta Lake for ACID compliance & schema evolution.
 
-⬇️ Governed with Unity Catalog (🔐 schema enforcement, lineage, data governance)
+Enabled Time Travel for data recovery & versioning.
 
-⬇️ Visualized in Power BI Dashboards (📊 KPIs, trends, business insights)
+Managed RBAC, auditing, and lineage via Unity Catalog.
+
+📈 Analytics & Reporting
+
+Built Power BI dashboards from Gold layer.
+
+Delivered insights on trends, KPIs, and reporting efficiency.
+
+🛠️ Tech Stack & Tools Used
+
+☁️ Cloud: Microsoft Azure (Data Factory, SQL DB, Data Lake, Databricks, Unity Catalog)
+
+🔥 Big Data: PySpark, Delta Lake
+
+🛢 Storage: Parquet, Delta
+
+📈 Visualization: Power BI
+
+🔧 How to Run the Project
+
+Clone the Repository:
+
+git clone https://github.com/tkaushik015/Enterprise-Data-Governance-and-Analytics-Framework.git
+
+
+Azure Setup:
+
+Create Resource Group, Data Lake, SQL DB, ADF, and Databricks.
+
+Load source data into SQL Database.
+
+Pipeline Configuration:
+
+Configure ADF pipelines for incremental ingestion.
+
+Transformation Execution:
+
+Run Databricks notebooks for cleaning, modeling, and SCD handling.
+
+Reporting Setup:
+
+Connect Power BI to the Gold layer for dashboarding.
+
+💡 Key Learnings & Challenges Faced
+
+Handling incremental loads with CDC.
+
+Managing schema evolution in Delta tables.
+
+Optimizing partitioning & storage formats for performance.
+
+Ensuring data quality & governance across layers.
+
+🔥 Potential Future Improvements
+
+Integrate real-time streaming with Azure Event Hubs / Kafka.
+
+Add SCD Type 2 for historical tracking.
+
+Automate deployments using CI/CD pipelines.
+
+Strengthen security with Azure Key Vault.
+
+🧪 Validation Strategies
+
+✅ Data validation checks at ingestion & transformation stages.
+
+🔄 Unit tests for PySpark transformations.
+
+📊 Data quality checks (null handling, duplicates, referential integrity).
+
+🌟 Project Impact & Use Cases
+
+⚡ Demonstrates end-to-end Azure data engineering with governance & BI.
+
+📈 Supports business reporting and decision-making with reliable pipelines.
+
+🔐 Ensures data integrity, scalability, and compliance.
+
+📚 References & Documentation
+
+🔗 Azure Data Factory Documentation
+
+🔗 Delta Lake Documentation
+
+🔗 Azure Databricks Documentation
