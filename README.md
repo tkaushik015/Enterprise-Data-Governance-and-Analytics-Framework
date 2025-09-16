@@ -1,207 +1,107 @@
-# 🚀 Azure End-to-End Data Engineering Pipeline 
+🚀 Azure End-to-End Data Engineering Pipeline
+<p align="center"> <img src="https://img.shields.io/badge/Azure-Data%20Engineering-blue?logo=microsoftazure&logoColor=white" height="30"/> <img src="https://img.shields.io/badge/Databricks-Lakehouse-red?logo=databricks&logoColor=white" height="30"/> <img src="https://img.shields.io/badge/ETL-Pipeline-green?logo=apache-spark&logoColor=white" height="30"/> </p>
+📌 Project Overview
 
-🔗 **GitHub Repository:** https://github.com/yourusername/azure-data-engineering-bootcamp
+This project demonstrates the design and implementation of a real-world Azure Data Engineering pipeline.
+It integrates Azure SQL Database, Azure Data Factory (ADF), Azure Data Lake, Databricks, Delta Lake, Unity Catalog, and Power BI under the Medallion Architecture (Bronze → Silver → Gold).
 
----
+👉 Key Highlights:
 
-## 📚 Table of Contents
-1. [Project Overview](#project-overview)  
-2. [🏗️ Architecture](#architecture)  
-3. [💾 Data Sources](#data-sources)  
-4. [⚙️ Key Features & Concepts](#key-features--concepts)  
-5. [🔧 Technology Stack](#technology-stack)  
-6. [🚀 Getting Started](#getting-started)  
-   - 🛠️ [Prerequisites](#prerequisites)  
-   - 📥 [Clone the Repo](#clone-the-repo)  
-   - ☁️ [Azure Provisioning](#azure-provisioning)  
-   - ⚙️ [Configuration](#configuration)  
-   - ▶️ [Run the Pipeline](#run-the-pipeline)  
-7. [📂 Folder Structure](#folder-structure)  
-8. [🧠 Key Learnings & Challenges](#key-learnings--challenges)  
-9. [🔮 Future Improvements](#future-improvements)  
+⚡ Incremental data ingestion using Change Data Capture (CDC)
 
+🗂️ Star schema modeling (Facts & Dimensions)
 
----
+🔄 Slowly Changing Dimensions (SCD Type 1) handling
 
-## Project Overview
-An **end-to-end** Azure Data Engineering pipeline built in a production-ready, job-focused bootcamp:
+🔑 Parameterized pipelines for scalable deployment
 
-- **Source Prep:** Pull CSV sales data from a GitHub repo into Azure SQL DB.  
-- **Bronze Layer:** Incrementally load only new records into ADLS Gen2 as Parquet.  
-- **Silver Layer:** Conform to a star schema in Databricks, split combined sales data into facts & dimensions, generate surrogate keys, and apply **SCD Type 1 (upsert)**.  
-- **Gold Layer:** Build optimized Delta tables for business consumption.  
-- **Governance:** Secure access with Unity Catalog and Managed Identities.  
-- **Consumption:** Serve final datasets to Power BI for quick analytics.
+🧾 Data governance, lineage, and schema enforcement with Unity Catalog
 
----
+📊 Power BI dashboards for visualization
 
-## 🏗️ Architecture
-```text
- GitHub CSV  →  Azure SQL DB  →  ADLS Gen2 (Bronze)
-                                             │
-                                             ▼
-                                   Azure Databricks (Silver)
-                                             │
-                                             ▼
-                                   Azure Databricks (Gold)
-                                             │
-                                             ▼
-                                    Power BI / Analytics
-💾 Data Sources
-Sales Data (CSV)
+🏗️ Architecture
+<p align="center"> <img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*zVnWJtyGOX_kUIDm6ccCFQ.png" width="700"/> </p>
+🔹 Data Flow Breakdown
 
-Combined “facts + dimensions” table with columns:
-branch_id, dealer_id, model_id, date_id, revenue, units
+Data Source (Azure SQL Database)
 
-Config JSON
+Source tables hosted in Azure SQL Database.
 
-Defines initial vs. incremental loads, file patterns & table mappings
+Initial + incremental loads staged from sample datasets.
 
-⚙️ Key Features & Concepts
-Medallion Architecture
-Bronze → Silver → Gold logical layers to separate raw ingestion from curated models
+Ingestion Layer (Azure Data Factory – Bronze Layer)
 
-Incremental CDC Processing
+ADF pipelines extract data into Azure Data Lake (Bronze).
 
-Pipeline identifies only new rows each run, avoiding full re-loads
+Data stored in Parquet format for efficiency.
 
-Dynamic, Parameterized ADF Pipelines
+Implemented incremental ingestion (only new/updated records).
 
-Lookup activity reads JSON config
+Transformation Layer (Databricks – Silver Layer)
 
-ForEach iterates tables/months with parameters (sourcePath, targetPath, watermarkCol)
+Data cleaned, validated, and structured into Facts & Dimensions.
 
-Parquet & Delta Lake
+Applied Star Schema design for analytics.
 
-Bronze writes Parquet for efficiency
+Managed Slowly Changing Dimensions (SCD Type 1) using upserts.
 
-Silver & Gold use Delta for ACID, time travel & versioning
+Serving Layer (Databricks + Delta Lake – Gold Layer)
 
-Star Schema & SCD Type 1
+Final data written to Delta format for:
 
-Split raw data into FactSales and dimension tables (DimBranch, DimDealer, DimModel, DimDate)
+ACID transactions
 
-Upsert logic in Silver to overwrite changed dimension attributes
+Time Travel
 
-Unity Catalog Governance
-Unified metastore for catalogs, schemas and fine-grained access control
+Schema evolution
 
-Secure Secret Management
+Optimized for BI and downstream analytics.
 
-Azure Key Vault for all service credentials
+Governance & Quality (Unity Catalog)
 
-Managed Identities for ADF & Databricks
+Centralized governance: RBAC, lineage tracking, auditing, and schema validation.
 
-Power BI Integration
+Visualization (Power BI)
 
-Live connector to Gold Delta tables for sub-hourly dashboard refreshes
+Gold layer connected to Power BI.
 
-🔧 Technology Stack
-Layer	Tools & Services
-Orchestration	Azure Data Factory
-Storage	Azure Data Lake Storage Gen2
-Compute	Azure Databricks (PySpark, Delta Lake)
-Database	Azure SQL Database
-Governance	Unity Catalog, Azure Key Vault
-Visualization	Power BI
-Source Control	Git & GitHub
+Created dashboards for insights and KPIs.
 
-🚀 Getting Started
-🛠️ Prerequisites
-Azure subscription with:
+⚙️ Tech Stack
 
-Data Factory, Storage Account, Databricks workspace, SQL Database, Key Vault
+Azure → Data Factory, Data Lake, SQL Database
 
-Local: Azure CLI, Databricks CLI, Git
+Databricks → PySpark, Delta Lake, Unity Catalog
 
-📥 Clone the Repo
-bash
-Copy
-Edit
-git clone https://github.com/yourusername/azure-data-engineering-bootcamp.git
-cd azure-data-engineering-bootcamp/project2
-☁️ Azure Provisioning
-Create Resource Group
+Modeling → Star Schema, Facts & Dimensions, SCD Type 1
 
-bash
-Copy
-Edit
-az group create -n rg-azure-de-eng -l eastus
-Create Storage Account & Containers
+File Formats → CSV → Parquet → Delta
 
-bash
-Copy
-Edit
-az storage account create -n stazuredeeng \
-  --resource-group rg-azure-de-eng --hierarchical-namespace true
-az storage container create -n bronze --account-name stazuredeeng
-az storage container create -n silver --account-name stazuredeeng
-az storage container create -n gold   --account-name stazuredeeng
-Provision Key Vault & Secrets
+Governance → Unity Catalog (lineage, auditing, RBAC)
 
-bash
-Copy
-Edit
-az keyvault create -n kv-azure-de-eng -g rg-azure-de-eng
-az keyvault secret set -n "SQLConn"      --vault-name kv-azure-de-eng --value "<conn-string>"
-az keyvault secret set -n "StorageKey"   --vault-name kv-azure-de-eng --value "<storage-key>"
-az keyvault secret set -n "DatabricksPAT"--vault-name kv-azure-de-eng --value "<pat>"
-⚙️ Configuration
-Upload GitHub CSVs to your Azure SQL DB source tables.
+BI → Power BI
 
-Place config/project2_config.json in the lookup/ container of your storage account.
+📊 Scenarios Implemented
 
-Ensure JSON includes keys: tableName, isIncremental, sourceQuery, watermarkColumn.
+✅ Incremental Data Loading (CDC + Stored Procedures)
+✅ Star Schema with Facts & Dimensions
+✅ Slowly Changing Dimensions (SCD Type 1 – Upserts)
+✅ Schema Evolution & Time Travel (Delta Lake)
+✅ Data Governance with Unity Catalog
+✅ Parameterized Pipelines for flexible deployments
 
-▶️ Run the Pipeline
-Import ADF JSON definitions into your Data Factory.
+📌 How to Run
 
-Link your Linked Services (SQL DB, ADLS, Key Vault).
+Clone the repo and provision Azure resources.
 
-Trigger the master pipeline (pipeline_project2_master).
+Set up Resource Group → Data Lake → SQL Database → ADF → Databricks.
 
-Monitor runs in ADF Monitor → verify Parquet files in Bronze.
+Load source data into Azure SQL Database.
 
-Check Silver & Gold Delta tables in Databricks SQL:
+Configure ADF pipelines for ingestion into Bronze.
 
-sql
-Copy
-Edit
-SELECT COUNT(*) FROM bronze.raw_sales;
-SELECT COUNT(*) FROM silver.fact_sales;
-SELECT COUNT(*) FROM gold.fact_sales;
-Connect Power BI to your Databricks workspace, select Gold schema for live reports.
+Use Databricks notebooks to transform into Silver & Gold.
 
-📂 Folder Structure
-pgsql
-Copy
-Edit
-project2/
-├── configs/
-│   └── project2_config.json
-├── lookup/
-│   └── raw_sales.csv
-├── pipelines/
-│   └── ADF_definitions/
-├── notebooks/
-│   ├── 01_load_bronze.py
-│   ├── 02_transform_silver.py
-│   └── 03_build_gold.py
-└── README.md
-🧠 Key Learnings & Challenges
-Designing CDC-based incremental loads to avoid reprocessing.
+Connect Power BI to Gold for dashboarding.
 
-Implementing dynamic pipelines with Lookup & ForEach for maintainability.
-
-Mastering Delta Lake upserts for SCD Type 1.
-
-Securing assets with Unity Catalog & Managed Identities.
-
-🔮 Future Improvements
-Add SCD Type 2 to track full dimension history.
-
-Integrate Event Hubs + Stream Analytics for real-time ingest.
-
-Automate CI/CD for ADF & notebooks via GitHub Actions.
-
-Incorporate data quality checks with Great Expectations or Deequ.
+✨ This project demonstrates the end-to-end design and implementation of a cloud-native data pipeline, covering ingestion, transformation, governance, and visualization.
