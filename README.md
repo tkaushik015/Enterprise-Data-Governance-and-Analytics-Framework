@@ -73,13 +73,9 @@ The pipeline follows a **layered Medallion Architecture**:
 
 ## 🛠 Data Pipeline Flow  
 
-### 📊 Mermaid Diagram (Clean + Recruiter-Friendly)  
-
-```mermaid
-flowchart LR
-    A[Azure SQL Database] --> B[Azure Data Factory (Bronze)]
-    B --> C[Azure Data Lake - Bronze Layer]
-    C --> D[Azure Databricks - Silver Layer: Cleaning, Joins, Transformations]
-    D --> E[Gold Layer - Facts & Dimensions: Star Schema, Optimized Tables]
-    E --> F[Unity Catalog: Governance & Schema Enforcement]
-    F --> G[Power BI Dashboards: Reports & KPIs]
+📂 SQL DB
+⬇️ Extracted via ADF → Bronze Layer (raw data, stored in Parquet)
+⬇️ Cleaned & transformed in Databricks → Silver Layer (joins, deduplication, business rules)
+⬇️ Modeled into Gold Layer (✅ Facts & Dimensions with Star Schema)
+⬇️ Governed with Unity Catalog (🔐 schema enforcement, lineage, data governance)
+⬇️ Visualized in Power BI Dashboards (📊 KPIs, trends, business insights)
